@@ -42,7 +42,7 @@ const ProductDetails = ({ product }) => {
       quantity: quantity
     };
     
-    addToCart(cartItem, quantity);
+    addToCart(cartItem);
   };
 
   // Render star ratings

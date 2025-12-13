@@ -1,4 +1,5 @@
 import React from 'react';
+import { useParams } from 'react-router-dom';
 import { PRODUCT_DATA, CUSTOMER_REVIEWS, RELATED_PRODUCTS } from './constants';
 import ImageGallery from './components/ImageGallery';
 import ProductDetails from './components/ProductDetails';
@@ -7,6 +8,14 @@ import CustomerReviews from './components/CustomerReviews';
 import RelatedProducts from './components/RelatedProducts';
 
 const ProductPage = () => {
+  // In a real application, we would use the productId to fetch the correct product data
+  // For now, we'll just use the existing PRODUCT_DATA
+  const { productId } = useParams();
+  
+  // Normally, you would fetch product data based on productId
+  // const product = fetchProductById(productId);
+  // For this implementation, we'll continue using the static data
+  
   return (
     <main className="px-20 py-12 bg-brand-cream">
       {/* Product Overview Section */}

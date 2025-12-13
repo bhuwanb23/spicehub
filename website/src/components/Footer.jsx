@@ -33,7 +33,7 @@ const Footer = () => {
                         <ul className="mt-4 space-y-3">
                             <li><a href="#" className="text-brand-brown-300 hover:text-white transition-colors">Shop All</a>
                             </li>
-                            <li><a href="#" className="text-brand-brown-300 hover:text-white transition-colors">Our Story</a>
+                            <li><a href="/our-story" className="text-brand-brown-300 hover:text-white transition-colors">Our Story</a>
                             </li>
                             <li><a href="#" className="text-brand-brown-300 hover:text-white transition-colors">Recipes</a></li>
                             <li><a href="#" className="text-brand-brown-300 hover:text-white transition-colors">FAQs</a></li>
