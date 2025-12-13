@@ -11,12 +11,37 @@ const Header = () => {
         return location.pathname === path;
     };
     
+    // Function to scroll to top of the page
+    const scrollToTop = () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    };
+    
+    // Function to handle navigation with scroll to top
+    const handleNavigation = (path) => {
+        // If we're already on the same page, just scroll to top
+        if (location.pathname === path) {
+            scrollToTop();
+        } else {
+            // Navigate to the new page
+            navigate(path);
+            // Scroll to top after navigation (using setTimeout to ensure it happens after navigation)
+            setTimeout(() => {
+                scrollToTop();
+            }, 100);
+        }
+    };
+
     return (
         <header id="header" className="bg-brand-cream/80 backdrop-blur-sm sticky top-0 z-50">
             <div className="container mx-auto px-6 py-4">
                 <div className="flex items-center justify-between">
                     <button 
-                        onClick={() => navigate('/')} 
+                        onClick={() => {
+                            handleNavigation('/');
+                        }}
                         className="text-2xl font-serif font-bold text-brand-brown-700 hover:opacity-80 transition-opacity"
                     >
                         <span className="flex items-center">
@@ -28,7 +53,7 @@ const Header = () => {
                     </button>
                     <nav className="hidden md:flex items-center space-x-8">
                         <button
-                            onClick={() => navigate('/')}
+                            onClick={() => handleNavigation('/')}
                             className={`${
                                 isActive('/') 
                                     ? 'text-brand-orange font-bold' 
@@ -38,7 +63,7 @@ const Header = () => {
                             Home
                         </button>
                         <button
-                            onClick={() => navigate('/shop')}
+                            onClick={() => handleNavigation('/shop')}
                             className={`${
                                 isActive('/shop') 
                                     ? 'text-brand-orange font-bold' 
@@ -48,7 +73,7 @@ const Header = () => {
                             Shop
                         </button>
                         <button
-                            onClick={() => navigate('/our-story')}
+                            onClick={() => handleNavigation('/our-story')}
                             className={`${
                                 isActive('/our-story') 
                                     ? 'text-brand-orange font-bold' 
@@ -58,7 +83,7 @@ const Header = () => {
                             Our Story
                         </button>
                         <button
-                            onClick={() => navigate('/contact')}
+                            onClick={() => handleNavigation('/contact')}
                             className={`${
                                 isActive('/contact') 
                                     ? 'text-brand-orange font-bold' 
@@ -70,7 +95,7 @@ const Header = () => {
                     </nav>
                     <div className="flex items-center space-x-5">
                         <button 
-                            onClick={() => navigate('/search')}
+                            onClick={() => handleNavigation('/search')}
                             className="text-brand-brown-700 hover:text-brand-orange transition-colors duration-300"
                         >
                             <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 512 512">
@@ -78,7 +103,7 @@ const Header = () => {
                             </svg>
                         </button>
                         <button 
-                            onClick={() => navigate('/account')}
+                            onClick={() => handleNavigation('/account')}
                             className="text-brand-brown-700 hover:text-brand-orange transition-colors duration-300"
                         >
                             <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 448 512">
@@ -86,7 +111,7 @@ const Header = () => {
                             </svg>
                         </button>
                         <button 
-                            onClick={() => navigate('/cart')}
+                            onClick={() => handleNavigation('/cart')}
                             className="relative text-brand-brown-700 hover:text-brand-orange transition-colors duration-300"
                         >
                             <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 576 512">
