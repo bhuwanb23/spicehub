@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const ProductFilters = () => {
+  const navigate = useNavigate();
   const [cuisineFilters, setCuisineFilters] = useState({
     indian: false,
     mexican: false,
@@ -28,6 +30,12 @@ const ProductFilters = () => {
     setOrganicOnly(!organicOnly);
   };
 
+  // Navigate to category page
+  const handleCategoryClick = (category) => {
+    const categorySlug = category.toLowerCase().replace(/\s+/g, '-');
+    navigate(`/category/${categorySlug}`);
+  };
+
   return (
     <aside id="filters-sidebar" className="w-full lg:w-1/4 xl:w-1/5">
       <div className="space-y-8">
@@ -37,11 +45,46 @@ const ProductFilters = () => {
         <div id="filter-category" className="space-y-3">
           <h3 className="font-bold text-lg">Category</h3>
           <ul className="space-y-2 text-gray-700">
-            <li><a href="#" className="hover:text-brand-rust transition-colors">All Spices</a></li>
-            <li><a href="#" className="hover:text-brand-rust transition-colors">Herbs</a></li>
-            <li><a href="#" className="hover:text-brand-rust transition-colors">Spice Blends</a></li>
-            <li><a href="#" className="hover:text-brand-rust transition-colors">Salts & Peppers</a></li>
-            <li><a href="#" className="hover:text-brand-rust transition-colors">Chilies</a></li>
+            <li>
+              <button 
+                onClick={() => handleCategoryClick('All Spices')} 
+                className="text-left hover:text-brand-rust transition-colors w-full"
+              >
+                All Spices
+              </button>
+            </li>
+            <li>
+              <button 
+                onClick={() => handleCategoryClick('Herbs')} 
+                className="text-left hover:text-brand-rust transition-colors w-full"
+              >
+                Herbs
+              </button>
+            </li>
+            <li>
+              <button 
+                onClick={() => handleCategoryClick('Spice Blends')} 
+                className="text-left hover:text-brand-rust transition-colors w-full"
+              >
+                Spice Blends
+              </button>
+            </li>
+            <li>
+              <button 
+                onClick={() => handleCategoryClick('Salts & Peppers')} 
+                className="text-left hover:text-brand-rust transition-colors w-full"
+              >
+                Salts & Peppers
+              </button>
+            </li>
+            <li>
+              <button 
+                onClick={() => handleCategoryClick('Chilies')} 
+                className="text-left hover:text-brand-rust transition-colors w-full"
+              >
+                Chilies
+              </button>
+            </li>
           </ul>
         </div>
 
