@@ -1,7 +1,14 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { FEATURED_PRODUCTS } from '../constants';
 
 const FeaturedProducts = () => {
+  const navigate = useNavigate();
+
+  const handleProductClick = (productId) => {
+    navigate(`/product/${productId}`);
+  };
+
   return (
     <section id="featured-section" className="py-24 bg-brand-cream">
       <div className="container mx-auto px-6">
@@ -17,7 +24,8 @@ const FeaturedProducts = () => {
             <div 
               key={product.id}
               id={`product-card-${product.id}`}
-              className="group bg-white rounded-lg shadow-sm overflow-hidden border border-brand-brown-100 hover:shadow-xl transition-shadow duration-300"
+              className="group bg-white rounded-lg shadow-sm overflow-hidden border border-brand-brown-100 hover:shadow-xl transition-shadow duration-300 cursor-pointer"
+              onClick={() => handleProductClick(product.id)}
             >
               <div className="h-64 overflow-hidden">
                 <img 
@@ -30,7 +38,13 @@ const FeaturedProducts = () => {
                 <h3 className="font-serif text-xl font-bold text-brand-brown-900">{product.name}</h3>
                 <p className="text-brand-brown-500 mt-2">{product.description}</p>
                 <p className="text-lg font-bold text-brand-green-700 mt-4">{product.price}</p>
-                <button className="mt-4 w-full bg-brand-brown-700 text-white py-2 rounded-full opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-300">
+                <button 
+                  className="mt-4 w-full bg-brand-brown-700 text-white py-2 rounded-full opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-300"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    // Add to cart functionality would go here
+                  }}
+                >
                   Add to Cart
                 </button>
               </div>

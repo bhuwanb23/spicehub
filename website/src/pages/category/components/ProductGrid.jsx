@@ -1,8 +1,14 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { CATEGORY_PRODUCTS, SORT_OPTIONS } from '../constants';
 
 const ProductGrid = () => {
   const [sortBy, setSortBy] = useState('popularity');
+  const navigate = useNavigate();
+
+  const handleProductClick = (productId) => {
+    navigate(`/product/${productId}`);
+  };
 
   return (
     <section id="product-grid-section" className="py-16 bg-brand-cream">
@@ -34,7 +40,8 @@ const ProductGrid = () => {
             <div 
               key={product.id} 
               id={`product-card-${product.id}`}
-              className="group bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
+              className="group bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 cursor-pointer"
+              onClick={() => handleProductClick(product.id)}
             >
               <div className="relative h-56 overflow-hidden">
                 <img 
@@ -51,7 +58,13 @@ const ProductGrid = () => {
                 <p className="text-brand-brown-500 text-sm mb-4">{product.description}</p>
                 <div className="flex justify-between items-center">
                   <span className="text-xl font-semibold text-brand-orange">${product.price.toFixed(2)}</span>
-                  <button className="bg-brand-orange text-white px-4 py-2 rounded-md text-sm font-semibold hover:bg-opacity-90 transition-colors">
+                  <button 
+                    className="bg-brand-orange text-white px-4 py-2 rounded-md text-sm font-semibold hover:bg-opacity-90 transition-colors"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      // Add to cart functionality would go here
+                    }}
+                  >
                     Add to Cart
                   </button>
                 </div>
