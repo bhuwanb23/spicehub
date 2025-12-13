@@ -157,7 +157,7 @@ export const GLOBAL_PRODUCTS = [
     tags: ["product-detail", "coffee", "ethiopian"]
   },
   {
-    id: 4,
+    id: 3,
     name: "Ethiopian Yirgacheffe",
     price: 24.50,
     description: "A bright, medium-bodied coffee with a distinctively floral and fruity taste profile. Grown in the high-altitude, fertile lands of Yirgacheffe, this single-origin bean is a testament to Ethiopia's rich coffee heritage.",

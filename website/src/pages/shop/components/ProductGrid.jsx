@@ -27,8 +27,8 @@ const ProductGrid = () => {
         <h1 className="text-3xl font-serif font-bold text-brand-brown">All Products</h1>
         <div className="flex items-center space-x-2">
           <label htmlFor="sort" className="text-sm">Sort by:</label>
-          <select 
-            id="sort" 
+          <select
+            id="sort"
             name="sort"
             value={sortBy}
             onChange={handleSortChange}
@@ -45,24 +45,24 @@ const ProductGrid = () => {
 
       <div id="product-grid" className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-8">
         {SHOP_PRODUCTS.map((product) => (
-          <div 
+          <div
             key={product.id}
             id={`product-card-${product.id}`}
             className="group bg-white rounded-lg shadow-sm border border-brand-tan/30 overflow-hidden transform hover:-translate-y-1 hover:shadow-lg transition-all duration-300 flex flex-col cursor-pointer"
             onClick={() => handleProductClick(product.id)}
           >
             <div className="relative h-56 overflow-hidden">
-              <img 
+              <img
                 className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
-                src={product.image}
-                alt={product.alt}
+                src={product.image || (product.images && product.images[0] ? product.images[0].src : '')}
+                alt={product.alt || product.name}
               />
               {product.badge && (
                 <span className="absolute top-3 left-3 bg-brand-green text-white text-xs font-bold px-2 py-1 rounded-full">
                   {product.badge}
                 </span>
               )}
-              <button 
+              <button
                 className="absolute bottom-3 right-3 bg-brand-brown/80 text-white w-10 h-10 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 group-hover:bottom-4 transition-all duration-300 hover:bg-brand-rust"
                 onClick={(e) => handleAddToCart(e, product)}
               >
@@ -78,7 +78,7 @@ const ProductGrid = () => {
               </div>
               <div className="mt-4 flex justify-between items-center">
                 <p className="text-lg font-bold text-brand-rust">${product.price.toFixed(2)}</p>
-                <p className="text-sm text-gray-400">/ {product.size}</p>
+                {product.size && <p className="text-sm text-gray-400">/ {product.size}</p>}
               </div>
             </div>
           </div>
@@ -89,8 +89,8 @@ const ProductGrid = () => {
       <nav id="pagination" className="mt-12 flex justify-center" aria-label="Pagination">
         <ul className="flex items-center -space-x-px h-10 text-base">
           <li>
-            <a 
-              href="#" 
+            <a
+              href="#"
               className="flex items-center justify-center px-4 h-10 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700"
             >
               <span className="sr-only">Previous</span>
@@ -100,8 +100,8 @@ const ProductGrid = () => {
             </a>
           </li>
           <li>
-            <a 
-              href="#" 
+            <a
+              href="#"
               aria-current="page"
               className="z-10 flex items-center justify-center px-4 h-10 leading-tight text-white border border-brand-rust bg-brand-rust hover:bg-brand-rust/90"
             >
@@ -109,7 +109,7 @@ const ProductGrid = () => {
             </a>
           </li>
           <li>
-            <a 
+            <a
               href="#"
               className="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700"
             >
@@ -117,7 +117,7 @@ const ProductGrid = () => {
             </a>
           </li>
           <li>
-            <a 
+            <a
               href="#"
               className="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700"
             >
@@ -125,7 +125,7 @@ const ProductGrid = () => {
             </a>
           </li>
           <li>
-            <a 
+            <a
               href="#"
               className="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-s-0 border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700"
             >
