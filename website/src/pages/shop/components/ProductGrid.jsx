@@ -1,70 +1,8 @@
 import React, { useState } from 'react';
+import { SHOP_PRODUCTS, SORT_OPTIONS } from '../constants';
 
 const ProductGrid = () => {
   const [sortBy, setSortBy] = useState('Popularity');
-
-  const products = [
-    {
-      id: 1,
-      name: "Smoked Paprika",
-      description: "Sweet & Smoky",
-      price: "$7.50",
-      size: "50g",
-      image: "https://storage.googleapis.com/uxpilot-auth.appspot.com/c48ee98e5a-830a45fe2419b55f26d4.png",
-      alt: "A premium macro shot of smoked paprika powder in a small wooden bowl, earthy tones, studio lighting",
-      badge: "FRESHLY GROUND"
-    },
-    {
-      id: 2,
-      name: "Cumin Seeds",
-      description: "Earthy & Aromatic",
-      price: "$6.00",
-      size: "50g",
-      image: "https://storage.googleapis.com/uxpilot-auth.appspot.com/2e57883ea9-dc2e8cb84c73f24dab74.png",
-      alt: "High-quality photo of whole cumin seeds spilling from a burlap sack, rustic, warm lighting",
-      badge: "ORGANIC"
-    },
-    {
-      id: 3,
-      name: "Dried Rosemary",
-      description: "Piney & Fragrant",
-      price: "$8.25",
-      size: "40g",
-      image: "https://storage.googleapis.com/uxpilot-auth.appspot.com/56bff6ac7f-f5211b049fad184620e1.png",
-      alt: "Artistic shot of dried rosemary sprigs on a dark slate background, dramatic lighting",
-      badge: null
-    },
-    {
-      id: 4,
-      name: "Turmeric Powder",
-      description: "Warm & Peppery",
-      price: "$5.50",
-      size: "60g",
-      image: "https://storage.googleapis.com/uxpilot-auth.appspot.com/3210923e1b-9ccae429ffc82d18737d.png",
-      alt: "Vibrant yellow turmeric powder arranged in a pattern on a black background, minimalist, high contrast",
-      badge: "FRESHLY GROUND"
-    },
-    {
-      id: 5,
-      name: "Black Peppercorns",
-      description: "Pungent & Spicy",
-      price: "$9.00",
-      size: "50g",
-      image: "https://storage.googleapis.com/uxpilot-auth.appspot.com/28d6f97d20-5f6fa9fc90b05892a6c0.png",
-      alt: "Close-up of whole black peppercorns in a ceramic mortar, textured, natural light",
-      badge: null
-    },
-    {
-      id: 6,
-      name: "Saffron Threads",
-      description: "Floral & Luxurious",
-      price: "$25.00",
-      size: "1g",
-      image: "https://storage.googleapis.com/uxpilot-auth.appspot.com/7e0b400494-969d05897f22f8fe765d.png",
-      alt: "Delicate saffron threads in a small glass jar, highlighting their vibrant red color, macro photography",
-      badge: "PREMIUM"
-    }
-  ];
 
   const handleSortChange = (e) => {
     setSortBy(e.target.value);
@@ -83,16 +21,17 @@ const ProductGrid = () => {
             onChange={handleSortChange}
             className="border border-brand-tan rounded-md px-3 py-2 bg-white focus:ring-1 focus:ring-brand-rust focus:border-brand-rust transition"
           >
-            <option value="Popularity">Popularity</option>
-            <option value="Newest">Newest</option>
-            <option value="PriceLowHigh">Price: Low to High</option>
-            <option value="PriceHighLow">Price: High to Low</option>
+            {SORT_OPTIONS.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
           </select>
         </div>
       </div>
 
       <div id="product-grid" className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-8">
-        {products.map((product) => (
+        {SHOP_PRODUCTS.map((product) => (
           <div 
             key={product.id}
             id={`product-card-${product.id}`}

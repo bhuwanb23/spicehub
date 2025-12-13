@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { CUISINE_FILTERS, GRIND_TYPES, CATEGORY_FILTERS } from '../constants';
 
 const ProductFilters = () => {
   const navigate = useNavigate();
-  const [cuisineFilters, setCuisineFilters] = useState({
-    indian: false,
-    mexican: false,
-    italian: true,
-    thai: false,
-    mediterranean: false
-  });
+  const [cuisineFilters, setCuisineFilters] = useState(
+    CUISINE_FILTERS.reduce((acc, filter) => {
+      acc[filter.id] = filter.checked;
+      return acc;
+    }, {})
+  );
 
   const [grindType, setGrindType] = useState('ground');
 
@@ -31,9 +31,8 @@ const ProductFilters = () => {
   };
 
   // Navigate to category page
-  const handleCategoryClick = (category) => {
-    const categorySlug = category.toLowerCase().replace(/\s+/g, '-');
-    navigate(`/category/${categorySlug}`);
+  const handleCategoryClick = (path) => {
+    navigate(path);
   };
 
   return (
@@ -45,46 +44,16 @@ const ProductFilters = () => {
         <div id="filter-category" className="space-y-3">
           <h3 className="font-bold text-lg">Category</h3>
           <ul className="space-y-2 text-gray-700">
-            <li>
-              <button 
-                onClick={() => handleCategoryClick('All Spices')} 
-                className="text-left hover:text-brand-rust transition-colors w-full"
-              >
-                All Spices
-              </button>
-            </li>
-            <li>
-              <button 
-                onClick={() => handleCategoryClick('Herbs')} 
-                className="text-left hover:text-brand-rust transition-colors w-full"
-              >
-                Herbs
-              </button>
-            </li>
-            <li>
-              <button 
-                onClick={() => handleCategoryClick('Spice Blends')} 
-                className="text-left hover:text-brand-rust transition-colors w-full"
-              >
-                Spice Blends
-              </button>
-            </li>
-            <li>
-              <button 
-                onClick={() => handleCategoryClick('Salts & Peppers')} 
-                className="text-left hover:text-brand-rust transition-colors w-full"
-              >
-                Salts & Peppers
-              </button>
-            </li>
-            <li>
-              <button 
-                onClick={() => handleCategoryClick('Chilies')} 
-                className="text-left hover:text-brand-rust transition-colors w-full"
-              >
-                Chilies
-              </button>
-            </li>
+            {CATEGORY_FILTERS.map((category) => (
+              <li key={category.id}>
+                <button 
+                  onClick={() => handleCategoryClick(category.path)} 
+                  className="text-left hover:text-brand-rust transition-colors w-full"
+                >
+                  {category.label}
+                </button>
+              </li>
+            ))}
           </ul>
         </div>
 
@@ -92,61 +61,19 @@ const ProductFilters = () => {
         <div id="filter-cuisine" className="space-y-3">
           <h3 className="font-bold text-lg">Cuisine</h3>
           <ul className="space-y-2">
-            <li>
-              <label className="flex items-center space-x-2 cursor-pointer">
-                <input 
-                  type="checkbox" 
-                  className="rounded border-gray-300 text-brand-rust focus:ring-brand-rust/50"
-                  checked={cuisineFilters.indian}
-                  onChange={() => handleCuisineChange('indian')}
-                />
-                <span>Indian</span>
-              </label>
-            </li>
-            <li>
-              <label className="flex items-center space-x-2 cursor-pointer">
-                <input 
-                  type="checkbox" 
-                  className="rounded border-gray-300 text-brand-rust focus:ring-brand-rust/50"
-                  checked={cuisineFilters.mexican}
-                  onChange={() => handleCuisineChange('mexican')}
-                />
-                <span>Mexican</span>
-              </label>
-            </li>
-            <li>
-              <label className="flex items-center space-x-2 cursor-pointer">
-                <input 
-                  type="checkbox" 
-                  className="rounded border-gray-300 text-brand-rust focus:ring-brand-rust/50"
-                  checked={cuisineFilters.italian}
-                  onChange={() => handleCuisineChange('italian')}
-                />
-                <span>Italian</span>
-              </label>
-            </li>
-            <li>
-              <label className="flex items-center space-x-2 cursor-pointer">
-                <input 
-                  type="checkbox" 
-                  className="rounded border-gray-300 text-brand-rust focus:ring-brand-rust/50"
-                  checked={cuisineFilters.thai}
-                  onChange={() => handleCuisineChange('thai')}
-                />
-                <span>Thai</span>
-              </label>
-            </li>
-            <li>
-              <label className="flex items-center space-x-2 cursor-pointer">
-                <input 
-                  type="checkbox" 
-                  className="rounded border-gray-300 text-brand-rust focus:ring-brand-rust/50"
-                  checked={cuisineFilters.mediterranean}
-                  onChange={() => handleCuisineChange('mediterranean')}
-                />
-                <span>Mediterranean</span>
-              </label>
-            </li>
+            {CUISINE_FILTERS.map((cuisine) => (
+              <li key={cuisine.id}>
+                <label className="flex items-center space-x-2 cursor-pointer">
+                  <input 
+                    type="checkbox" 
+                    className="rounded border-gray-300 text-brand-rust focus:ring-brand-rust/50"
+                    checked={cuisineFilters[cuisine.id]}
+                    onChange={() => handleCuisineChange(cuisine.id)}
+                  />
+                  <span>{cuisine.label}</span>
+                </label>
+              </li>
+            ))}
           </ul>
         </div>
 
@@ -176,42 +103,20 @@ const ProductFilters = () => {
         <div id="filter-grind-type" className="space-y-3">
           <h3 className="font-bold text-lg">Grind Type</h3>
           <ul className="space-y-2">
-            <li>
-              <label className="flex items-center space-x-2 cursor-pointer">
-                <input 
-                  type="radio" 
-                  name="grind"
-                  className="text-brand-rust focus:ring-brand-rust/50"
-                  checked={grindType === 'whole'}
-                  onChange={() => handleGrindTypeChange('whole')}
-                />
-                <span>Whole</span>
-              </label>
-            </li>
-            <li>
-              <label className="flex items-center space-x-2 cursor-pointer">
-                <input 
-                  type="radio" 
-                  name="grind" 
-                  className="text-brand-rust focus:ring-brand-rust/50"
-                  checked={grindType === 'ground'}
-                  onChange={() => handleGrindTypeChange('ground')}
-                />
-                <span>Ground</span>
-              </label>
-            </li>
-            <li>
-              <label className="flex items-center space-x-2 cursor-pointer">
-                <input 
-                  type="radio" 
-                  name="grind"
-                  className="text-brand-rust focus:ring-brand-rust/50"
-                  checked={grindType === 'flakes'}
-                  onChange={() => handleGrindTypeChange('flakes')}
-                />
-                <span>Flakes</span>
-              </label>
-            </li>
+            {GRIND_TYPES.map((type) => (
+              <li key={type.id}>
+                <label className="flex items-center space-x-2 cursor-pointer">
+                  <input 
+                    type="radio" 
+                    name="grind"
+                    className="text-brand-rust focus:ring-brand-rust/50"
+                    checked={grindType === type.id}
+                    onChange={() => handleGrindTypeChange(type.id)}
+                  />
+                  <span>{type.label}</span>
+                </label>
+              </li>
+            ))}
           </ul>
         </div>
 

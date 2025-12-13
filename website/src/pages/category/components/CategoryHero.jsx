@@ -1,5 +1,6 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
+import { CATEGORY_HERO_IMAGE, CATEGORY_DESCRIPTIONS } from '../constants';
 
 const CategoryHero = () => {
   const { categoryName } = useParams();
@@ -13,14 +14,15 @@ const CategoryHero = () => {
   };
 
   const displayName = formatCategoryName(categoryName || 'Whole Spices');
+  const description = CATEGORY_DESCRIPTIONS[categoryName] || CATEGORY_DESCRIPTIONS.default;
 
   return (
     <section id="category-hero" className="relative h-[450px] flex items-center justify-center text-white">
       <div className="absolute inset-0 h-full w-full">
         <img 
           className="w-full h-full object-cover" 
-          src="https://storage.googleapis.com/uxpilot-auth.appspot.com/f345aa5f85-800d28678e0becbe85d6.png" 
-          alt="An artful arrangement of whole spices on a rustic wooden surface" 
+          src={CATEGORY_HERO_IMAGE.src} 
+          alt={CATEGORY_HERO_IMAGE.alt} 
         />
       </div>
       <div className="absolute inset-0 bg-brand-brown-700/50"></div>
@@ -29,10 +31,7 @@ const CategoryHero = () => {
           {displayName}
         </h1>
         <p className="text-lg text-brand-brown-100 leading-relaxed">
-          Discover the soul of flavor with our hand-selected {displayName.toLowerCase()}. 
-          Sourced from the finest farms, each spice is a promise of unparalleled aroma and potency. 
-          Our philosophy is simple: pure, unadulterated ingredients for an authentic culinary experience 
-          that elevates every dish from ordinary to extraordinary.
+          {description}
         </p>
       </div>
     </section>

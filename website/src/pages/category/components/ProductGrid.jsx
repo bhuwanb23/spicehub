@@ -1,75 +1,8 @@
 import React, { useState } from 'react';
+import { CATEGORY_PRODUCTS, SORT_OPTIONS } from '../constants';
 
 const ProductGrid = () => {
   const [sortBy, setSortBy] = useState('popularity');
-
-  // Sample product data - in a real app this would come from an API
-  const products = [
-    {
-      id: 1,
-      name: 'Ceylon Cinnamon Sticks',
-      description: 'Delicate, sweet notes perfect for desserts and warm beverages.',
-      price: 8.50,
-      image: 'https://storage.googleapis.com/uxpilot-auth.appspot.com/5548d5225c-5d4fc0ded4327b455991.png',
-      badge: 'Best for Baking'
-    },
-    {
-      id: 2,
-      name: 'Star Anise',
-      description: 'Aromatic licorice flavor essential for pho and braised meats.',
-      price: 6.75,
-      image: 'https://storage.googleapis.com/uxpilot-auth.appspot.com/3c98775e62-c111d9853a5c6bc32b93.png',
-      badge: 'Ideal for Broths'
-    },
-    {
-      id: 3,
-      name: 'Green Cardamom Pods',
-      description: 'Intensely aromatic with a complex, slightly sweet and spicy taste.',
-      price: 12.00,
-      image: 'https://storage.googleapis.com/uxpilot-auth.appspot.com/e28f20b6e9-4cd51c3529e318a13655.png',
-      badge: 'Perfect for Chai'
-    },
-    {
-      id: 4,
-      name: 'Whole Cloves',
-      description: 'Pungent and warming, a staple in savory dishes and spice blends.',
-      price: 7.25,
-      image: 'https://storage.googleapis.com/uxpilot-auth.appspot.com/51c673d0b9-498c5f1f8ef2ee93f505.png',
-      badge: 'Best for Curries'
-    },
-    {
-      id: 5,
-      name: 'Tellicherry Peppercorns',
-      description: 'Bold, pungent, and fruity. The king of spices for any dish.',
-      price: 9.00,
-      image: 'https://storage.googleapis.com/uxpilot-auth.appspot.com/a574adddeb-c889730ed53491605710.png',
-      badge: 'Kitchen Essential'
-    },
-    {
-      id: 6,
-      name: 'Turkish Bay Leaves',
-      description: 'Subtle, herbal aroma that deepens the flavor of stews and soups.',
-      price: 5.50,
-      image: 'https://storage.googleapis.com/uxpilot-auth.appspot.com/380597d0ca-34ffee3a84ceb5ed9f9d.png',
-      badge: 'Ideal for Slow Cooking'
-    },
-    {
-      id: 7,
-      name: 'Whole Cumin Seeds',
-      description: 'Robust, earthy flavor essential for Mexican, Indian, and Middle Eastern cuisines.',
-      price: 6.00,
-      image: 'https://storage.googleapis.com/uxpilot-auth.appspot.com/6dd179ee5b-66c289d9a21c86e09d9e.png',
-      badge: 'Earthy & Warm'
-    },
-    {
-      id: 8,
-      name: 'Whole Nutmeg',
-      description: 'Grate fresh for a warm, nutty kick in cream sauces and baked goods.',
-      price: 10.50,
-      image: 'https://storage.googleapis.com/uxpilot-auth.appspot.com/5127c368bb-2b9c23dd03cab3703864.png',
-      badge: 'Sweet & Spicy'
-    }
-  ];
 
   return (
     <section id="product-grid-section" className="py-16 bg-brand-cream">
@@ -87,16 +20,17 @@ const ProductGrid = () => {
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
             >
-              <option value="popularity">Popularity</option>
-              <option value="price-low">Price: Low to High</option>
-              <option value="price-high">Price: High to Low</option>
-              <option value="newest">Newest</option>
+              {SORT_OPTIONS.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
             </select>
           </div>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-          {products.map((product) => (
+          {CATEGORY_PRODUCTS.map((product) => (
             <div 
               key={product.id} 
               id={`product-card-${product.id}`}

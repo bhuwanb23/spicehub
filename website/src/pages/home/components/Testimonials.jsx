@@ -1,30 +1,7 @@
 import React from 'react';
+import { TESTIMONIALS } from '../constants';
 
 const Testimonials = () => {
-  const testimonials = [
-    {
-      id: 1,
-      name: "Priya S., Bangalore",
-      quote: "The aroma of the Garam Masala is just incredible. It has completely transformed my cooking. You can taste the freshness!",
-      avatar: "https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-5.jpg",
-      rating: 5
-    },
-    {
-      id: 2,
-      name: "Michael Chen, New York",
-      quote: "I'm a professional chef, and the quality of these spices is top-notch. The Lakadong Turmeric is unlike any I've used before.",
-      avatar: "https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-2.jpg",
-      rating: 5
-    },
-    {
-      id: 3,
-      name: "Fatima Al-Jamil, Dubai",
-      quote: "Fast delivery and beautiful packaging. The products feel so premium. It's clear they care about every detail.",
-      avatar: "https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-7.jpg",
-      rating: 5
-    }
-  ];
-
   const renderStars = (rating) => {
     return Array.from({ length: 5 }, (_, i) => (
       <svg 
@@ -45,7 +22,7 @@ const Testimonials = () => {
           <h2 className="font-serif text-4xl font-bold text-brand-brown-900">What Our Customers Say</h2>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {testimonials.map((testimonial) => (
+          {TESTIMONIALS.map((testimonial) => (
             <div 
               key={testimonial.id}
               id={`testimonial-${testimonial.id}`}
