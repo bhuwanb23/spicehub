@@ -1,13 +1,20 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useCart } from '../../../context/CartContext';
 import { CATEGORY_PRODUCTS, SORT_OPTIONS } from '../constants';
 
 const ProductGrid = () => {
   const [sortBy, setSortBy] = useState('popularity');
+  const { addToCart } = useCart();
   const navigate = useNavigate();
 
   const handleProductClick = (productId) => {
     navigate(`/product/${productId}`);
+  };
+
+  const handleAddToCart = (e, product) => {
+    e.stopPropagation();
+    addToCart(product);
   };
 
   return (
@@ -60,10 +67,7 @@ const ProductGrid = () => {
                   <span className="text-xl font-semibold text-brand-orange">${product.price.toFixed(2)}</span>
                   <button 
                     className="bg-brand-orange text-white px-4 py-2 rounded-md text-sm font-semibold hover:bg-opacity-90 transition-colors"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      // Add to cart functionality would go here
-                    }}
+                    onClick={(e) => handleAddToCart(e, product)}
                   >
                     Add to Cart
                   </button>

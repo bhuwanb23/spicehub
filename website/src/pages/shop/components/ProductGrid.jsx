@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useCart } from '../../../context/CartContext';
 import { SHOP_PRODUCTS, SORT_OPTIONS } from '../constants';
 
 const ProductGrid = () => {
   const [sortBy, setSortBy] = useState('Popularity');
+  const { addToCart } = useCart();
   const navigate = useNavigate();
 
   const handleSortChange = (e) => {
@@ -12,6 +14,11 @@ const ProductGrid = () => {
 
   const handleProductClick = (productId) => {
     navigate(`/product/${productId}`);
+  };
+
+  const handleAddToCart = (e, product) => {
+    e.stopPropagation();
+    addToCart(product);
   };
 
   return (
@@ -57,10 +64,7 @@ const ProductGrid = () => {
               )}
               <button 
                 className="absolute bottom-3 right-3 bg-brand-brown/80 text-white w-10 h-10 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 group-hover:bottom-4 transition-all duration-300 hover:bg-brand-rust"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  // Add to cart functionality would go here
-                }}
+                onClick={(e) => handleAddToCart(e, product)}
               >
                 <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 448 512">
                   <path d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z" />
@@ -73,7 +77,7 @@ const ProductGrid = () => {
                 <p className="text-sm text-gray-500">{product.description}</p>
               </div>
               <div className="mt-4 flex justify-between items-center">
-                <p className="text-lg font-bold text-brand-rust">{product.price}</p>
+                <p className="text-lg font-bold text-brand-rust">${product.price.toFixed(2)}</p>
                 <p className="text-sm text-gray-400">/ {product.size}</p>
               </div>
             </div>

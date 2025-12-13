@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+import { useCart } from '../../../context/CartContext';
 
 const ProductDetails = ({ product }) => {
+  const { addToCart } = useCart();
   const [selectedWeight, setSelectedWeight] = useState(
     product.weightOptions.find(option => option.selected)?.id || product.weightOptions[0]?.id
   );
@@ -25,6 +27,22 @@ const ProductDetails = ({ product }) => {
     if (quantity > 1) {
       setQuantity(prev => prev - 1);
     }
+  };
+
+  const handleAddToCart = () => {
+    // Get the selected weight and grind options
+    const weightOption = product.weightOptions.find(option => option.id === selectedWeight);
+    const grindOption = product.grindOptions.find(option => option.id === selectedGrind);
+    
+    // Create a cart item with selected options
+    const cartItem = {
+      ...product,
+      selectedWeight: weightOption,
+      selectedGrind: grindOption,
+      quantity: quantity
+    };
+    
+    addToCart(cartItem, quantity);
   };
 
   // Render star ratings
@@ -117,7 +135,9 @@ const ProductDetails = ({ product }) => {
             <i className="fas fa-plus"></i>
           </button>
         </div>
-        <button className="flex-1 bg-brand-brown-900 text-white py-3 rounded-full font-bold tracking-wider hover:bg-brand-brown-700 transition-colors shadow-md">
+        <button className="flex-1 bg-brand-brown-900 text-white py-3 rounded-full font-bold tracking-wider hover:bg-brand-brown-700 transition-colors shadow-md"
+          onClick={handleAddToCart}
+        >
           ADD TO CART
         </button>
       </div>

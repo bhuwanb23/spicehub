@@ -8,7 +8,7 @@ import RelatedProducts from './components/RelatedProducts';
 
 const ProductPage = () => {
   return (
-    <main className="p-12 bg-brand-cream">
+    <main className="px-20 py-12 bg-brand-cream">
       {/* Product Overview Section */}
       <section id="product-overview" className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
         <ImageGallery images={PRODUCT_DATA.images} />

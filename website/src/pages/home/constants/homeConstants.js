@@ -4,33 +4,33 @@
 export const FEATURED_PRODUCTS = [
   {
     id: 1,
-    name: "Kashmiri Red Chilli",
-    description: "Vibrant color, mild heat.",
-    price: "$8.50",
-    image: "https://storage.googleapis.com/uxpilot-auth.appspot.com/2b9648f20c-057c3ad88b77a4d2673f.png",
-    alt: "Premium packaging of Kashmiri Red Chilli powder, elegant label, against a clean, minimalist background, product photography."
+    name: "Lakadong Turmeric",
+    description: "Premium quality, high curcumin content.",
+    price: 12.99,
+    image: "https://storage.googleapis.com/uxpilot-auth.appspot.com/400182301d-976619613333743604d1.png",
+    alt: "A premium macro shot of Lakadong Turmeric powder in a ceramic bowl, golden yellow color, studio lighting."
   },
   {
     id: 2,
-    name: "Lakadong Turmeric",
-    description: "High curcumin, potent aroma.",
-    price: "$12.00",
-    image: "https://storage.googleapis.com/uxpilot-auth.appspot.com/7b72ef3094-7c2183b54eb494582377.png",
-    alt: "A jar of Lakadong Turmeric powder, rich golden-yellow color, with a handcrafted wooden spoon, premium product photography."
+    name: "Kashmiri Chillies",
+    description: "Mild heat with vibrant color.",
+    price: 8.50,
+    image: "https://storage.googleapis.com/uxpilot-auth.appspot.com/6560063957-9968299716144015153.png",
+    alt: "Bright red Kashmiri chillies arranged artistically on a rustic wooden surface, warm lighting."
   },
   {
     id: 3,
-    name: "Malabar Peppercorns",
-    description: "Bold, pungent, and aromatic.",
-    price: "$9.75",
-    image: "https://storage.googleapis.com/uxpilot-auth.appspot.com/8737bbc50f-068c2bdc9a73571d7215.png",
-    alt: "Glass container of whole Malabar Black Peppercorns, minimalist label design, natural light, product photography."
+    name: "Malabar Black Pepper",
+    description: "Full-bodied, robust flavor profile.",
+    price: 10.75,
+    image: "https://storage.googleapis.com/uxpilot-auth.appspot.com/1042218989-07182113792195238.png",
+    alt: "High-quality photo of Malabar black peppercorns in a small brass container, textured, natural light."
   },
   {
     id: 4,
     name: "Garam Masala",
     description: "Our signature 12-spice blend.",
-    price: "$15.20",
+    price: 15.20,
     image: "https://storage.googleapis.com/uxpilot-auth.appspot.com/7cccc9b9e1-076917427f82e9e7ab11.png",
     alt: "An elegant bottle of Garam Masala blend, showcasing the texture of the ground spices inside, premium product shot."
   }
