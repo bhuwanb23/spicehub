@@ -168,9 +168,9 @@ export const CartProvider = ({ children }) => {
     getOrderSummary
   };
 
-  return (
-    <CartContext.Provider value={value}>
-      {children}
-    </CartContext.Provider>
+  return React.createElement(
+    CartContext.Provider,
+    { value: value },
+    children
   );
 };

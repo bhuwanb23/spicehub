@@ -1,4 +1,4 @@
-import { useCart } from '../context/CartContext';
+import { useCart } from '../../../context/CartContext';
 
 const ComplementaryProducts = ({ products }) => {
   const { addToCart } = useCart();
