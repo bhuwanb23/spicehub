@@ -11,7 +11,7 @@ const ProductPage = () => {
   const { productId } = useParams();
   
   // Get the product based on the URL parameter
-  const product = getProductById(productId) || getProductById(19); // fallback to coffee product
+  const product = getProductById(productId) || getProductById(1); // fallback to coffee product (ID 1)
   
   // Get related products
   const relatedProducts = getRelatedProducts();
@@ -24,34 +24,37 @@ const ProductPage = () => {
         <ProductDetails product={product} />
       </section>
       
-      {/* Product Specifications Section */}
-      {(product.origin || product.region || product.harvest || product.process || product.altitude || product.roast || (product.tastingNotes && product.tastingNotes.length > 0)) && (
-        <section id="product-specifications" className="mb-16">
-          <ProductSpecifications product={product} />
-        </section>
-      )}
-      
-      {/* Origin Story Section */}
-      {product.originStory && (
-        <section id="origin-story" className="mb-16">
-          <div className="bg-white rounded-lg p-6 md:p-8 border border-brand-brown-300">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+      {/* Product Details Section - Side by side layout */}
+      {(product.origin || product.region || product.harvest || product.process || product.altitude || product.roast || (product.tastingNotes && product.tastingNotes.length > 0) || product.originStory) && (
+        <section id="product-details" className="mb-16">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {/* Product Specifications */}
+            {(product.origin || product.region || product.harvest || product.process || product.altitude || product.roast || (product.tastingNotes && product.tastingNotes.length > 0)) && (
               <div>
-                <h2 className="text-2xl md:text-3xl font-serif font-bold text-brand-brown-900 mb-4">
+                <ProductSpecifications product={product} />
+              </div>
+            )}
+            
+            {/* Origin Story */}
+            {product.originStory && (
+              <div className="bg-white rounded-lg p-6 border border-brand-brown-300 h-full flex flex-col">
+                <h2 className="text-xl font-serif font-bold text-brand-brown-900 mb-4">
                   {product.originStory.title}
                 </h2>
-                <p className="text-brand-brown-700 leading-relaxed">
-                  {product.originStory.description}
-                </p>
+                <div className="space-y-4 flex-grow">
+                  <p className="text-brand-brown-700 text-sm leading-relaxed">
+                    {product.originStory.description}
+                  </p>
+                  <div className="rounded-lg overflow-hidden mt-auto">
+                    <img 
+                      src={product.originStory.image.src} 
+                      alt={product.originStory.image.alt} 
+                      className="w-full h-48 object-cover"
+                    />
+                  </div>
+                </div>
               </div>
-              <div className="rounded-lg overflow-hidden">
-                <img 
-                  src={product.originStory.image.src} 
-                  alt={product.originStory.image.alt} 
-                  className="w-full h-auto object-cover"
-                />
-              </div>
-            </div>
+            )}
           </div>
         </section>
       )}
