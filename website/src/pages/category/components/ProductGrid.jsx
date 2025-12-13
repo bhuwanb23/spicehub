@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../../../context/CartContext';
-import { CATEGORY_PRODUCTS, SORT_OPTIONS } from '../constants';
+import { SORT_OPTIONS } from '../constants';
 
-const ProductGrid = () => {
+const ProductGrid = ({ products = [] }) => {
   const [sortBy, setSortBy] = useState('popularity');
   const { addToCart } = useCart();
   const navigate = useNavigate();
@@ -43,7 +43,7 @@ const ProductGrid = () => {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-          {CATEGORY_PRODUCTS.map((product) => (
+          {products.map((product) => (
             <div 
               key={product.id} 
               id={`product-card-${product.id}`}
@@ -54,11 +54,13 @@ const ProductGrid = () => {
                 <img 
                   className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" 
                   src={product.image} 
-                  alt={product.name} 
+                  alt={product.alt || product.name} 
                 />
-                <div className="absolute top-3 right-3 bg-brand-orange text-white text-xs font-semibold px-3 py-1 rounded-full">
-                  {product.badge}
-                </div>
+                {product.badge && (
+                  <div className="absolute top-3 right-3 bg-brand-orange text-white text-xs font-semibold px-3 py-1 rounded-full">
+                    {product.badge}
+                  </div>
+                )}
               </div>
               <div className="p-5">
                 <h3 className="text-xl font-serif text-brand-brown-700 mb-2">{product.name}</h3>

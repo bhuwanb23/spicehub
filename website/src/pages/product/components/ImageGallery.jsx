@@ -1,48 +1,48 @@
 import React, { useState } from 'react';
 
 const ImageGallery = ({ images }) => {
-  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   const handleThumbnailClick = (index) => {
-    setSelectedImageIndex(index);
+    setCurrentImageIndex(index);
   };
 
-  if (!images || images.length === 0) {
-    return <div className="h-[550px] bg-gray-200 rounded-lg overflow-hidden shadow-lg flex items-center justify-center">
-      <span className="text-gray-500">No images available</span>
-    </div>;
-  }
+  // Handle both single image and array of images
+  const imageList = Array.isArray(images) ? images : [images];
+  const currentImage = imageList[currentImageIndex] || {};
 
   return (
-    <div id="image-gallery" className="flex flex-col gap-4">
-      {/* Main image */}
-      <div className="h-[550px] bg-gray-200 rounded-lg overflow-hidden shadow-lg">
-        <img 
-          className="w-full h-full object-cover" 
-          src={images[selectedImageIndex].src} 
-          alt={images[selectedImageIndex].alt} 
-        />
-      </div>
-      
+    <div id="image-gallery" className="flex flex-col-reverse lg:flex-row gap-6">
       {/* Thumbnails */}
-      <div className="grid grid-cols-4 gap-4">
-        {images.map((image, index) => (
-          <div 
-            key={image.id}
-            className={`h-28 bg-gray-200 rounded-md overflow-hidden cursor-pointer transition-opacity ${
-              index === selectedImageIndex 
-                ? 'border-2 border-brand-orange opacity-100' 
-                : 'opacity-70 hover:opacity-100'
-            }`}
-            onClick={() => handleThumbnailClick(index)}
-          >
-            <img 
-              className="w-full h-full object-cover" 
-              src={image.src} 
-              alt={image.alt} 
-            />
-          </div>
-        ))}
+      {imageList.length > 1 && (
+        <div className="flex lg:flex-col gap-4 overflow-x-auto lg:overflow-x-visible lg:h-[500px] pb-2">
+          {imageList.map((image, index) => (
+            <button
+              key={index}
+              className={`flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 ${
+                currentImageIndex === index ? 'border-brand-orange' : 'border-transparent'
+              }`}
+              onClick={() => handleThumbnailClick(index)}
+            >
+              <img
+                src={image.src || image.image}
+                alt={image.alt}
+                className="w-full h-full object-cover"
+              />
+            </button>
+          ))}
+        </div>
+      )}
+
+      {/* Main Image */}
+      <div className="flex-grow">
+        <div className="aspect-square rounded-xl overflow-hidden bg-brand-brown-100 flex items-center justify-center">
+          <img
+            src={currentImage.src || currentImage.image}
+            alt={currentImage.alt}
+            className="w-full h-full object-cover"
+          />
+        </div>
       </div>
     </div>
   );

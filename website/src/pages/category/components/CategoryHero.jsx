@@ -1,19 +1,17 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
 import { CATEGORY_HERO_IMAGE, CATEGORY_DESCRIPTIONS } from '../constants';
 
-const CategoryHero = () => {
-  const { categoryName } = useParams();
-
+const CategoryHero = ({ categoryName }) => {
   // Format category name for display
   const formatCategoryName = (name) => {
+    if (!name || name === 'all-spices') return 'All Spices';
     return name
       .split('-')
       .map(word => word.charAt(0).toUpperCase() + word.slice(1))
       .join(' ');
   };
 
-  const displayName = formatCategoryName(categoryName || 'Whole Spices');
+  const displayName = formatCategoryName(categoryName);
   const description = CATEGORY_DESCRIPTIONS[categoryName] || CATEGORY_DESCRIPTIONS.default;
 
   return (
