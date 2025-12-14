@@ -348,5 +348,13 @@ export const getProductById = (id) => {
 };
 
 export const getRelatedProducts = () => {
-  return GLOBAL_PRODUCTS.filter(product => product.tags.includes("related"));
+  // Return a selection of products excluding the current one
+  // For now, we'll return the first 3 products as related products
+  return GLOBAL_PRODUCTS.slice(0, 3).map(product => ({
+    ...product,
+    // Map to the structure expected by RelatedProducts component
+    image: product.images && product.images[0] ? product.images[0].src : '',
+    description: product.description || 'Premium quality spices and herbs',
+    badge: product.rating ? `${product.rating} ★` : null
+  }));
 };

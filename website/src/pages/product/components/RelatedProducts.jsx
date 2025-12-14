@@ -4,6 +4,11 @@ import { useNavigate } from 'react-router-dom';
 const RelatedProducts = ({ products }) => {
   const navigate = useNavigate();
 
+  // If no products, don't render anything
+  if (!products || products.length === 0) {
+    return null;
+  }
+
   const handleProductClick = (productId) => {
     // Navigate to product detail page
     navigate(`/product/${productId}`);
@@ -24,8 +29,8 @@ const RelatedProducts = ({ products }) => {
             <div className="relative h-48 overflow-hidden">
               <img 
                 className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" 
-                src={product.image} 
-                alt={product.name} 
+                src={product.image || (product.images && product.images[0] ? product.images[0].src : '')} 
+                alt={product.name || product.alt || 'Product image'} 
               />
               {product.badge && (
                 <div className="absolute top-3 right-3 bg-brand-orange text-white text-xs font-semibold px-3 py-1 rounded-full">
@@ -35,9 +40,13 @@ const RelatedProducts = ({ products }) => {
             </div>
             <div className="p-5">
               <h3 className="text-lg font-serif text-brand-brown-900 mb-2">{product.name}</h3>
-              <p className="text-brand-brown-700 text-sm mb-4">{product.description}</p>
+              <p className="text-brand-brown-700 text-sm mb-4">
+                {product.description || 'Premium quality spices and herbs'}
+              </p>
               <div className="flex justify-between items-center">
-                <span className="text-lg font-semibold text-brand-orange">${product.price.toFixed(2)}</span>
+                <span className="text-lg font-semibold text-brand-orange">
+                  ${typeof product.price === 'number' ? product.price.toFixed(2) : '0.00'}
+                </span>
                 <button 
                   className="bg-brand-brown-900 text-white px-4 py-2 rounded-full text-sm font-semibold hover:bg-opacity-90 transition-colors"
                   onClick={(e) => {

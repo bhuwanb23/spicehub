@@ -56,8 +56,13 @@ const Contact = () => {
   return (
     <div className="bg-brand-cream font-sans text-brand-brown-700">
       {/* Header Section */}
-      <section className="py-16 bg-white border-b border-brand-tan">
-        <div className="container mx-auto px-6 text-center max-w-3xl">
+      <section className="py-16 bg-white border-b border-brand-tan relative">
+        {/* Background image with overlay */}
+        <div className="absolute inset-0 bg-cover bg-center opacity-20" 
+             style={{ backgroundImage: "url('https://storage.googleapis.com/uxpilot-auth.appspot.com/8f25e12c82-8a3f09e89c9f5b05dd0d.png')" }}>
+        </div>
+        {/* <div className="absolute inset-0 bg-gradient-to-b from-brand-brown-900/30 to-brand-cream/80"></div> */}
+        <div className="container mx-auto px-6 text-center max-w-3xl relative z-10 ">
           <h1 className="text-4xl md:text-5xl font-serif font-bold text-brand-brown-900 mb-4">We're Here to Help</h1>
           <p className="text-lg text-brand-brown-700 max-w-2xl mx-auto">
             Have questions about our spices, your order, or just want to share your cooking adventures? 

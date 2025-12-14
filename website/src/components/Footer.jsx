@@ -7,7 +7,7 @@ const Footer = () => {
             <div className="container mx-auto px-6 py-16">
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
                     <div className="lg:col-span-4">
-                        <h3 className="font-serif text-2xl font-bold text-white">Aroma</h3>
+                        <h3 className="font-serif text-2xl font-bold text-white">Priya's Masala</h3>
                         <p className="mt-4 text-brand-brown-300 max-w-sm">Bringing the world's most authentic and pure spices
                             from the farm to your family's table.</p>
                         <div className="flex space-x-4 mt-6">
@@ -70,7 +70,7 @@ const Footer = () => {
                     </div>
                 </div>
                 <div className="mt-16 border-t border-brand-brown-700 pt-8 text-center text-sm text-brand-brown-500">
-                    <p>© 2025 Aroma Spice Co. All Rights Reserved.</p>
+                    <p>© 2025 Priya's Masala Spice Co. All Rights Reserved.</p>
                 </div>
             </div>
         </footer >
