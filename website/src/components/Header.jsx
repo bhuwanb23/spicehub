@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
+import { useAuth } from '../context/AuthContext.jsx';
 import { GLOBAL_PRODUCTS } from '../constants/products';
 
 const Header = () => {
@@ -10,6 +11,7 @@ const Header = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const { totalItems: cartItemCount } = useCart();
+    const { isAuthenticated, user, logout } = useAuth();
     const searchRef = useRef(null);
 
     const isActive = (path) => {
@@ -197,24 +199,70 @@ const Header = () => {
                             )}
                         </div>
                         
-                        <button 
-                            onClick={() => handleNavigation('/account')}
-                            className="text-brand-brown-700 hover:text-brand-orange transition-colors duration-300"
-                        >
-                            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 448 512">
-                                <path d="M304 128a80 80 0 1 0 -160 0 80 80 0 1 0 160 0zM96 128a128 128 0 1 1 256 0A128 128 0 1 1 96 128zM49.3 464H398.7c-8.9-63.3-63.3-112-129-112H178.3c-65.7 0-120.1 48.7-129 112zM0 482.3C0 383.8 79.8 304 178.3 304h91.4C368.2 304 448 383.8 448 482.3c0 16.4-13.3 29.7-29.7 29.7H29.7C13.3 512 0 498.7 0 482.3z" />
-                            </svg>
-                        </button>
+                        {/* User Authentication */}
+                        {isAuthenticated ? (
+                            <div className="relative group">
+                                <button className="flex items-center space-x-2 text-brand-brown-700 hover:text-brand-orange transition-colors">
+                                    <div className="w-8 h-8 rounded-full bg-brand-orange/10 flex items-center justify-center">
+                                        <svg className="w-4 h-4 text-brand-orange" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                                        </svg>
+                                    </div>
+                                    <span className="hidden md:inline text-sm font-medium">{user?.name || 'Account'}</span>
+                                </button>
+                                
+                                {/* Dropdown Menu */}
+                                <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-brand-tan py-2 hidden group-hover:block z-50">
+                                    <Link 
+                                        to="/account" 
+                                        className="block px-4 py-2 text-brand-brown-700 hover:bg-brand-cream transition-colors"
+                                    >
+                                        My Account
+                                    </Link>
+                                    <Link 
+                                        to="/account?section=orders" 
+                                        className="block px-4 py-2 text-brand-brown-700 hover:bg-brand-cream transition-colors"
+                                    >
+                                        My Orders
+                                    </Link>
+                                    <div className="border-t border-brand-tan my-1"></div>
+                                    <button
+                                        onClick={logout}
+                                        className="block w-full text-left px-4 py-2 text-brand-brown-700 hover:bg-brand-cream transition-colors"
+                                    >
+                                        Sign Out
+                                    </button>
+                                </div>
+                            </div>
+                        ) : (
+                            <Link 
+                                to="/login" 
+                                className="text-brand-brown-700 hover:text-brand-orange transition-colors text-sm font-medium"
+                            >
+                                Sign In
+                            </Link>
+                        )}
+                        
+                        {/* Cart Icon */}
                         <button 
                             onClick={() => handleNavigation('/cart')}
-                            className="relative text-brand-brown-700 hover:text-brand-orange transition-colors duration-300"
+                            className="relative text-brand-brown-700 hover:text-brand-orange transition-colors"
                         >
-                            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 576 512">
-                                <path d="M0 24C0 10.7 10.7 0 24 0H69.5c22 0 41.5 12.8 50.6 32h411c26.3 0 45.5 25 38.6 50.4l-41 152.3c-8.5 31.4-37 53.3-69.5 53.3H170.7l5.4 28.5c2.2 11.3 12.1 19.5 23.6 19.5H488c13.3 0 24 10.7 24 24s-10.7 24-24 24H199.7c-34.6 0-64.3-24.6-70.7-58.5L77.4 54.5c-.7-3.8-4-6.5-7.9-6.5H24C10.7 48 0 37.3 0 24zM128 464a48 48 0 1 1 96 0 48 48 0 1 1 -96 0zm336-48a48 48 0 1 1 0 96 48 48 0 1 1 0-96z" />
+                            <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 576 512">
+                                <path d="M0 24C0 10.7 10.7 0 24 0H69.5c22 0 41.5 12.8 50.6 32h411c26.3 0 45.5 25 38.6 50.4l-41 152.3c-8.5 31.4-37 53.3-69.4 53.3H170.7l5.4 28.5c2.2 11.3 12.1 19.5 23.6 19.5H488c13.3 0 24 10.7 24 24s-10.7 24-24 24H199.7c-34.6 0-64.3-24.6-70.7-58.5L77.4 54.5c-.7-3.8-4-6.5-7.9-6.5H24C10.7 48 0 37.3 0 24zM128 464a48 48 0 1 1 96 0 48 48 0 1 1 -96 0zm336-48a48 48 0 1 1 0 96 48 48 0 1 1 0-96z"/>
                             </svg>
-                            <span className="absolute -top-2 -right-2 bg-brand-orange text-white text-xs w-4 h-4 rounded-full flex items-center justify-center">
-                                {cartItemCount}
-                            </span>
+                            {cartItemCount > 0 && (
+                                <span className="absolute -top-2 -right-2 bg-brand-orange text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+                                    {cartItemCount}
+                                </span>
+                            )}
+                        </button>
+                        
+                        {/* Mobile Menu Button */}
+                        <button className="md:hidden text-brand-brown-700 hover:text-brand-orange transition-colors">
+                            <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 512 512">
+                                <path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/>
+                            </svg>
                         </button>
                     </div>
                 </div>

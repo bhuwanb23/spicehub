@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useReducer, useEffect } from 'react';
+import { useAuth } from './AuthContext.jsx';
 
 // Define initial user state
 const initialState = {
@@ -6,7 +7,7 @@ const initialState = {
     {
       id: 1,
       label: 'Home',
-      name: 'Alex Morgan',
+      name: 'User Name',
       street: '123 Main Street',
       city: 'San Francisco',
       state: 'CA',
@@ -17,7 +18,7 @@ const initialState = {
     {
       id: 2,
       label: 'Work',
-      name: 'Alex Morgan',
+      name: 'User Name',
       street: '456 Market Street, Suite 1200',
       city: 'San Francisco',
       state: 'CA',
@@ -79,6 +80,12 @@ const userReducer = (state, action) => {
         ...action.payload
       };
       
+    case 'INITIALIZE_USER_DATA':
+      return {
+        ...state,
+        ...action.payload
+      };
+      
     default:
       return state;
   }
@@ -98,6 +105,7 @@ export const useUser = () => {
 
 // User provider component
 export const UserProvider = ({ children }) => {
+  const { isAuthenticated, user } = useAuth();
   const [state, dispatch] = useReducer(userReducer, initialState, () => {
     // Load user data from localStorage if available
     const savedUserData = localStorage.getItem('userData');
@@ -122,6 +130,32 @@ export const UserProvider = ({ children }) => {
   useEffect(() => {
     localStorage.setItem('userData', JSON.stringify(state));
   }, [state]);
+
+  // Initialize user data when authenticated
+  useEffect(() => {
+    if (isAuthenticated && user) {
+      // Load user-specific data from localStorage
+      const userSpecificData = localStorage.getItem(`user_${user.id}_data`);
+      if (userSpecificData) {
+        try {
+          const parsedData = JSON.parse(userSpecificData);
+          dispatch({
+            type: 'INITIALIZE_USER_DATA',
+            payload: parsedData
+          });
+        } catch (e) {
+          console.error('Failed to parse user-specific data', e);
+        }
+      }
+    }
+  }, [isAuthenticated, user]);
+
+  // Save user-specific data to localStorage
+  useEffect(() => {
+    if (isAuthenticated && user) {
+      localStorage.setItem(`user_${user.id}_data`, JSON.stringify(state));
+    }
+  }, [state, isAuthenticated, user]);
 
   // Action creators
   const addAddress = (address) => {

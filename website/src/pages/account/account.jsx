@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
+import { useUser } from '../../context/UserContext';
 import DashboardOverview from './components/DashboardOverview';
 import MyOrders from './components/MyOrders';
 import Subscriptions from './components/Subscriptions';
@@ -11,15 +13,23 @@ import OrderTracking from './components/OrderTracking';
 const Account = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
-  const initialSection = searchParams.get('section') || 'dashboard';
+  const { isAuthenticated, user } = useAuth();
+  const { orders } = useUser();
   
+  // Redirect to login if not authenticated
+  if (!isAuthenticated) {
+    navigate('/login');
+    return null;
+  }
+  
+  const initialSection = searchParams.get('section') || 'dashboard';
   const [activeSection, setActiveSection] = useState(initialSection);
 
-  // Mock user data
+  // User data from auth context
   const userData = {
-    name: "Alex Morgan",
-    email: "alex.morgan@example.com",
-    memberSince: "March 2023"
+    name: user?.name || "User",
+    email: user?.email || "user@example.com",
+    memberSince: "January 2025"
   };
 
   // Navigation items
@@ -37,7 +47,7 @@ const Account = () => {
   const handleNavClick = (sectionId) => {
     if (sectionId === 'logout') {
       // Handle logout
-      navigate('/');
+      navigate('/login');
     } else {
       setActiveSection(sectionId);
       setSearchParams({ section: sectionId });

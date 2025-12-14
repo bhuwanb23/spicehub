@@ -5,35 +5,35 @@ const HeroSection = () => {
     <section id="hero-section" className="relative bg-brand-brown-100 h-[700px] overflow-hidden">
       <div className="absolute inset-0 grid grid-cols-5 grid-rows-2 gap-2">
         <div className="col-span-2 row-span-2 h-full overflow-hidden">
-          <img 
+          <img
             className="w-full h-full object-cover"
             src="https://storage.googleapis.com/uxpilot-auth.appspot.com/67e878543c-3329319bc2f76cb23bd4.png"
             alt="A close-up photograph of vibrant red paprika and chili powder in artisanal ceramic bowls, earthy and warm tones, natural light."
           />
         </div>
         <div className="col-span-1 row-span-1 h-full overflow-hidden">
-          <img 
+          <img
             className="w-full h-full object-cover"
             src="https://storage.googleapis.com/uxpilot-auth.appspot.com/135d277781-7bec121286ec9f6d535f.png"
             alt="Macro shot of golden turmeric powder with whole turmeric roots nearby, detailed texture, natural aesthetic."
           />
         </div>
         <div className="col-span-2 row-span-1 h-full overflow-hidden">
-          <img 
+          <img
             className="w-full h-full object-cover"
             src="https://storage.googleapis.com/uxpilot-auth.appspot.com/b640e6d159-747925f453976ddee0d7.png"
             alt="Artistic arrangement of whole spices like star anise, cinnamon sticks, and cloves on a rustic wooden surface, top-down view."
           />
         </div>
         <div className="col-span-1 row-span-1 h-full overflow-hidden">
-          <img 
+          <img
             className="w-full h-full object-cover"
             src="https://storage.googleapis.com/uxpilot-auth.appspot.com/1fb5696aaf-3385dd56f8f687a54481.png"
             alt="Close-up of fresh green herbs like rosemary and thyme, soft focus, natural lighting."
           />
         </div>
         <div className="col-span-2 row-span-1 h-full overflow-hidden">
-          <img 
+          <img
             className="w-full h-full object-cover"
             src="https://storage.googleapis.com/uxpilot-auth.appspot.com/792e3c5ce1-ed4331d17cf288f0b44b.png"
             alt="A pile of aromatic whole black peppercorns, detailed texture, dark and moody photography."
@@ -50,7 +50,7 @@ const HeroSection = () => {
             Experience the authentic taste of single-origin spices, sourced directly from the finest farms and delivered fresh to your kitchen.
           </p>
           <div className="mt-8">
-            <button className="bg-brand-green-700 text-white font-bold py-3 px-8 rounded-full hover:bg-brand-green-500 transition-all duration-300 transform hover:scale-105">
+            <button className="bg-brand-green-700 text-white font-bold py-3 px-8 rounded-full hover:bg-brand-green-500 transition-all duration-300 transform hover:scale-105 bg-brand-green-700">
               Shop Now
               <svg className="ml-2 w-4 h-4 inline" fill="currentColor" viewBox="0 0 448 512">
                 <path d="M438.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.8 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l306.7 0L233.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z" />
