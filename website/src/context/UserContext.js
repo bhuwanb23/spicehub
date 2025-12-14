@@ -25,7 +25,8 @@ const initialState = {
       country: 'United States',
       isDefault: false
     }
-  ]
+  ],
+  orders: []
 };
 
 // User reducer to handle user actions
@@ -60,6 +61,18 @@ const userReducer = (state, action) => {
         }))
       };
       
+    case 'ADD_ORDER':
+      return {
+        ...state,
+        orders: [...state.orders, action.payload]
+      };
+      
+    case 'SET_ORDERS':
+      return {
+        ...state,
+        orders: action.payload
+      };
+      
     case 'SET_USER_DATA':
       return {
         ...state,
@@ -88,7 +101,21 @@ export const UserProvider = ({ children }) => {
   const [state, dispatch] = useReducer(userReducer, initialState, () => {
     // Load user data from localStorage if available
     const savedUserData = localStorage.getItem('userData');
-    return savedUserData ? JSON.parse(savedUserData) : initialState;
+    if (savedUserData) {
+      try {
+        const parsedData = JSON.parse(savedUserData);
+        // Ensure backward compatibility by adding missing properties
+        return {
+          ...initialState,
+          ...parsedData,
+          orders: parsedData.orders || [] // Ensure orders array exists
+        };
+      } catch (e) {
+        console.error('Failed to parse user data from localStorage', e);
+        return initialState;
+      }
+    }
+    return initialState;
   });
 
   // Save user data to localStorage whenever it changes
@@ -125,6 +152,23 @@ export const UserProvider = ({ children }) => {
     });
   };
 
+  const addOrder = (order) => {
+    dispatch({
+      type: 'ADD_ORDER',
+      payload: { 
+        ...order, 
+        id: order.id || Date.now() // Use existing id or generate new one
+      }
+    });
+  };
+
+  const setOrders = (orders) => {
+    dispatch({
+      type: 'SET_ORDERS',
+      payload: orders
+    });
+  };
+
   const setUserData = (userData) => {
     dispatch({
       type: 'SET_USER_DATA',
@@ -138,6 +182,8 @@ export const UserProvider = ({ children }) => {
     updateAddress,
     deleteAddress,
     setDefaultAddress,
+    addOrder,
+    setOrders,
     setUserData
   };
 

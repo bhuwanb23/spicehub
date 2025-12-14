@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../../context/CartContext';
+import { useUser } from '../../context/UserContext';
 import CheckoutStepper from './components/CheckoutStepper';
 import ShippingAddress from './components/ShippingAddress';
 import DeliveryMethod from './components/DeliveryMethod';
@@ -9,7 +10,8 @@ import OrderSummary from './components/OrderSummary';
 
 const CheckoutPage = () => {
   const navigate = useNavigate();
-  const { items: cartItems, getOrderSummary } = useCart();
+  const { items: cartItems, getOrderSummary, clearCart } = useCart();
+  const { addOrder } = useUser();
   const [currentStep, setCurrentStep] = useState(1);
   const [shippingData, setShippingData] = useState({
     firstName: '',
@@ -63,9 +65,33 @@ const CheckoutPage = () => {
   };
 
   const handlePlaceOrder = () => {
-    // In a real application, this would process the payment
+    // Create order object
+    const orderSummary = getOrderSummary();
+    const deliveryCost = deliveryMethod === 'express' ? 15.00 : 5.00;
+    const total = orderSummary.subtotal + deliveryCost;
+    
+    const order = {
+      id: Date.now(), // Add id for order tracking
+      orderId: `ORD-${Date.now().toString().slice(-4)}`,
+      date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+      status: 'Processing',
+      total: total.toFixed(2),
+      items: cartItems.length,
+      deliveryMethod,
+      shippingData,
+      cartItems,
+      orderSummary
+    };
+    
+    // Save order to user context
+    addOrder(order);
+    
+    // Clear cart
+    clearCart();
+    
+    // Show success message
     alert('Order placed successfully!');
-    navigate('/');
+    navigate('/account?section=orders');
   };
 
   return (

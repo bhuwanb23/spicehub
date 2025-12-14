@@ -35,6 +35,7 @@ function App() {
                 <Route path="/our-story" element={<About />} />
                 <Route path="/search" element={<Search />} />
                 <Route path="/account" element={<Account />} />
+                <Route path="/account/orders/:orderId" element={<Account />} />
               </Routes>
             </main>
             <Footer />

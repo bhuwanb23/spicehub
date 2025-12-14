@@ -1,15 +1,19 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import DashboardOverview from './components/DashboardOverview';
 import MyOrders from './components/MyOrders';
 import Subscriptions from './components/Subscriptions';
 import Wishlist from './components/Wishlist';
 import Addresses from './components/Addresses';
 import AccountDetails from './components/AccountDetails';
+import OrderTracking from './components/OrderTracking';
 
 const Account = () => {
-  const [activeSection, setActiveSection] = useState('dashboard');
+  const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
+  const initialSection = searchParams.get('section') || 'dashboard';
+  
+  const [activeSection, setActiveSection] = useState(initialSection);
 
   // Mock user data
   const userData = {
@@ -36,11 +40,19 @@ const Account = () => {
       navigate('/');
     } else {
       setActiveSection(sectionId);
+      setSearchParams({ section: sectionId });
     }
   };
 
   // Render active section
   const renderActiveSection = () => {
+    // Check if we're viewing a specific order
+    const pathParts = window.location.pathname.split('/');
+    if (pathParts.includes('orders') && pathParts.length > 3) {
+      // We have an order ID (e.g., /account/orders/12345)
+      return <OrderTracking />;
+    }
+    
     switch (activeSection) {
       case 'dashboard':
         return <DashboardOverview />;
@@ -72,14 +84,14 @@ const Account = () => {
         );
       case 'box':
         return (
-          <svg className={iconClasses} fill="currentColor" viewBox="0 0 512 512">
-            <path d="M16 64C16 28.7 44.7 0 80 0H432c35.3 0 64 28.7 64 64V448c0 35.3-28.7 64-64 64H80c-35.3 0-64-28.7-64-64V64zM160 160c0-17.7 14.3-32 32-32H320c17.7 0 32 14.3 32 32V416H160V160zm80 48c0-8.8 7.2-16 16-16h16c8.8 0 16 7.2 16 16V256h16c8.8 0 16 7.2 16 16s-7.2 16-16 16H240c-8.8 0-16-7.2-16-16s7.2-16 16-16h16V208z"/>
+          <svg className={iconClasses} fill="currentColor" viewBox="0 0 448 512">
+            <path d="M144 0H304c26.5 0 48 21.5 48 48V96H112V48c0-26.5 21.5-48 48-48zm-8 272c0-8.8 7.2-16 16-16h32c8.8 0 16 7.2 16 16v64h33.3c13.3 0 25.1 8.3 29.5 20.8l16 44.8c4.4 12.5-1.4 26.4-12.8 32.8s-26.3 3.1-34.7-8.3L224 336H192v64c0 17.7-14.3 32-32 32s-32-14.3-32-32V272zm-32-64H288c8.8 0 16-7.2 16-16s-7.2-16-16-16H104c-8.8 0-16 7.2-16 16s7.2 16 16 16zm400 16c0 77.3-62.7 140-140 140H224 112C50.1 364 0 313.9 0 252V48C0 21.5 21.5 0 48 0H304c26.5 0 48 21.5 48 48v64h32c53 0 96 43 96 96v32z"/>
           </svg>
         );
       case 'calendar':
         return (
           <svg className={iconClasses} fill="currentColor" viewBox="0 0 448 512">
-            <path d="M96 32V64H48C21.5 64 0 85.5 0 112v48H448V112c0-26.5-21.5-48-48-48H352V32c0-17.7-14.3-32-32-32s-32 14.3-32 32V64H160V32c0-17.7-14.3-32-32-32S96 14.3 96 32zM448 192H0V464c0 26.5 21.5 48 48 48H400c26.5 0 48-21.5 48-48V192z"/>
+            <path d="M128 0c17.7 0 32 14.3 32 32V64H288V32c0-17.7 14.3-32 32-32s32 14.3 32 32V64h48c26.5 0 48 21.5 48 48v48H0V112C0 85.5 21.5 64 48 64H96V32c0-17.7 14.3-32 32-32zM0 192H448V464c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V192zm64 80v32c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16V272c0-8.8-7.2-16-16-16H80c-8.8 0-16 7.2-16 16zm128 0v32c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16V272c0-8.8-7.2-16-16-16H208c-8.8 0-16 7.2-16 16zm144-16c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16V272c0-8.8-7.2-16-16-16H336zM64 400v32c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16V400c0-8.8-7.2-16-16-16H80c-8.8 0-16 7.2-16 16zm144-16c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16V400c0-8.8-7.2-16-16-16H208zm112 16v32c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16V400c0-8.8-7.2-16-16-16H336c-8.8 0-16 7.2-16 16z"/>
           </svg>
         );
       case 'heart':
