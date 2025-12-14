@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Footer = () => {
     return (
@@ -33,7 +34,7 @@ const Footer = () => {
                         <ul className="mt-4 space-y-3">
                             <li><a href="#" className="text-brand-brown-300 hover:text-white transition-colors">Shop All</a>
                             </li>
-                            <li><a href="/our-story" className="text-brand-brown-300 hover:text-white transition-colors">Our Story</a>
+                            <li><Link to="/our-story" className="text-brand-brown-300 hover:text-white transition-colors">Our Story</Link>
                             </li>
                             <li><a href="#" className="text-brand-brown-300 hover:text-white transition-colors">Recipes</a></li>
                             <li><a href="#" className="text-brand-brown-300 hover:text-white transition-colors">FAQs</a></li>
@@ -43,7 +44,7 @@ const Footer = () => {
                     <div className="lg:col-span-2">
                         <h4 className="font-bold text-white tracking-wider">Support</h4>
                         <ul className="mt-4 space-y-3">
-                            <li><a href="#" className="text-brand-brown-300 hover:text-white transition-colors">Contact Us</a>
+                            <li><Link to="/contact" className="text-brand-brown-300 hover:text-white transition-colors">Contact Us</Link>
                             </li>
                             <li><a href="#" className="text-brand-brown-300 hover:text-white transition-colors">Shipping</a>
                             </li>
@@ -66,14 +67,14 @@ const Footer = () => {
                                 </svg>
                             </button>
                         </form>
+                    </div>
+                </div>
+                <div className="mt-16 border-t border-brand-brown-700 pt-8 text-center text-sm text-brand-brown-500">
+                    <p>© 2025 Aroma Spice Co. All Rights Reserved.</p>
                 </div>
             </div>
-            <div className="mt-16 border-t border-brand-brown-700 pt-8 text-center text-sm text-brand-brown-500">
-                <p>© 2025 Aroma Spice Co. All Rights Reserved.</p>
-            </div>
-        </div>
-    </footer >
-  );
+        </footer >
+    );
 };
 
 export default Footer;

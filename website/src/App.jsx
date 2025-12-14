@@ -13,6 +13,7 @@ import Checkout from './pages/checkout/checkout';
 import About from './pages/about/about';
 import Search from './pages/search/search';
 import Account from './pages/account';
+import Contact from './pages/contact/contact';
 import './App.css';
 
 function App() {
@@ -36,6 +37,7 @@ function App() {
                 <Route path="/search" element={<Search />} />
                 <Route path="/account" element={<Account />} />
                 <Route path="/account/orders/:orderId" element={<Account />} />
+                <Route path="/contact" element={<Contact />} />
               </Routes>
             </main>
             <Footer />
