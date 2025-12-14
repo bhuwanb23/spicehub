@@ -1,11 +1,16 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
+import { GLOBAL_PRODUCTS } from '../constants/products';
 
 const Header = () => {
+    const [searchQuery, setSearchQuery] = useState('');
+    const [suggestions, setSuggestions] = useState([]);
+    const [showSuggestions, setShowSuggestions] = useState(false);
     const navigate = useNavigate();
     const location = useLocation();
     const { totalItems: cartItemCount } = useCart();
+    const searchRef = useRef(null);
 
     const isActive = (path) => {
         return location.pathname === path;
@@ -33,6 +38,57 @@ const Header = () => {
             }, 100);
         }
     };
+    
+    // Handle search submission
+    const handleSearch = (e) => {
+        e.preventDefault();
+        if (searchQuery.trim()) {
+            // Hide suggestions
+            setShowSuggestions(false);
+            // Navigate to search results page
+            navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+        }
+    };
+    
+    // Handle suggestion click
+    const handleSuggestionClick = (productId) => {
+        // Hide suggestions
+        setShowSuggestions(false);
+        // Clear search query
+        setSearchQuery('');
+        // Navigate to product page
+        navigate(`/product/${productId}`);
+    };
+    
+    // Generate search suggestions
+    useEffect(() => {
+        if (searchQuery.trim() !== '') {
+            const filteredSuggestions = GLOBAL_PRODUCTS.filter(product => 
+                product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                product.category.toLowerCase().includes(searchQuery.toLowerCase())
+            ).slice(0, 5); // Limit to 5 suggestions
+            
+            setSuggestions(filteredSuggestions);
+            setShowSuggestions(true);
+        } else {
+            setSuggestions([]);
+            setShowSuggestions(false);
+        }
+    }, [searchQuery]);
+    
+    // Close suggestions when clicking outside
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (searchRef.current && !searchRef.current.contains(event.target)) {
+                setShowSuggestions(false);
+            }
+        };
+        
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
 
     return (
         <header id="header" className="bg-brand-cream/80 backdrop-blur-sm sticky top-0 z-50">
@@ -94,14 +150,53 @@ const Header = () => {
                         </button>
                     </nav>
                     <div className="flex items-center space-x-5">
-                        <button 
-                            onClick={() => handleNavigation('/search')}
-                            className="text-brand-brown-700 hover:text-brand-orange transition-colors duration-300"
-                        >
-                            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 512 512">
-                                <path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z" />
-                            </svg>
-                        </button>
+                        {/* Expanded Search Bar with Autocomplete */}
+                        <div ref={searchRef} className="relative">
+                            <form onSubmit={handleSearch} className="relative flex items-center">
+                                <input
+                                    type="text"
+                                    value={searchQuery}
+                                    onChange={(e) => setSearchQuery(e.target.value)}
+                                    placeholder="Search spices..."
+                                    className="w-48 md:w-64 px-4 py-2 pr-10 rounded-full border border-brand-tan focus:outline-none focus:ring-2 focus:ring-brand-orange focus:border-brand-orange bg-white shadow-sm transition-all duration-500 ease-in-out-cubic"
+                                    onFocus={() => searchQuery.trim() !== '' && setShowSuggestions(true)}
+                                />
+                                <button
+                                    type="submit"
+                                    className="absolute right-3 text-brand-brown-700 hover:text-brand-orange transition-colors duration-300"
+                                >
+                                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 512 512">
+                                        <path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z" />
+                                    </svg>
+                                </button>
+                            </form>
+                            
+                            {/* Suggestions Dropdown */}
+                            {showSuggestions && suggestions.length > 0 && (
+                                <div className="absolute top-full left-0 w-full mt-2 bg-white rounded-lg shadow-lg border border-brand-tan z-50 max-h-80 overflow-y-auto">
+                                    {suggestions.map((product) => (
+                                        <div
+                                            key={product.id}
+                                            className="flex items-center p-3 hover:bg-brand-cream cursor-pointer transition-colors duration-200"
+                                            onClick={() => handleSuggestionClick(product.id)}
+                                        >
+                                            <div className="w-10 h-10 rounded-md overflow-hidden mr-3">
+                                                <img
+                                                    src={product.images && product.images[0] ? product.images[0].src : ''}
+                                                    alt={product.name}
+                                                    className="w-full h-full object-cover"
+                                                />
+                                            </div>
+                                            <div>
+                                                <p className="font-medium text-brand-brown-700">{product.name}</p>
+                                                <p className="text-xs text-brand-brown-500 capitalize">{product.category}</p>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+                        
                         <button 
                             onClick={() => handleNavigation('/account')}
                             className="text-brand-brown-700 hover:text-brand-orange transition-colors duration-300"

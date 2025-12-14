@@ -10,6 +10,7 @@ import Product from './pages/product/product';
 import Cart from './pages/cart/cart';
 import Checkout from './pages/checkout/checkout';
 import About from './pages/about/about';
+import Search from './pages/search/search';
 import './App.css';
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
               <Route path="/cart" element={<Cart />} />
               <Route path="/checkout" element={<Checkout />} />
               <Route path="/our-story" element={<About />} />
+              <Route path="/search" element={<Search />} />
             </Routes>
           </main>
           <Footer />

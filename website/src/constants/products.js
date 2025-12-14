@@ -335,7 +335,8 @@ export const getFeaturedProducts = () => {
 };
 
 export const getShopProducts = () => {
-  return GLOBAL_PRODUCTS.filter(product => product.tags.includes("shop"));
+  // Return all products for the shop page
+  return GLOBAL_PRODUCTS;
 };
 
 export const getCategoryProducts = () => {
