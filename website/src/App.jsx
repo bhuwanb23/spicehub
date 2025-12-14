@@ -11,6 +11,7 @@ import Cart from './pages/cart/cart';
 import Checkout from './pages/checkout/checkout';
 import About from './pages/about/about';
 import Search from './pages/search/search';
+import Account from './pages/account';
 import './App.css';
 
 function App() {
@@ -31,6 +32,7 @@ function App() {
               <Route path="/checkout" element={<Checkout />} />
               <Route path="/our-story" element={<About />} />
               <Route path="/search" element={<Search />} />
+              <Route path="/account" element={<Account />} />
             </Routes>
           </main>
           <Footer />
