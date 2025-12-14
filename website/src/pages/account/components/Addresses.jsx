@@ -1,43 +1,40 @@
 import React, { useState } from 'react';
+import { useUser } from '../../../context/UserContext';
 
 const Addresses = () => {
-  const [addresses, setAddresses] = useState([
-    {
-      id: 1,
-      label: 'Home',
-      name: 'Alex Morgan',
-      street: '123 Main Street',
-      city: 'San Francisco',
-      state: 'CA',
-      zip: '94105',
-      country: 'United States',
-      isDefault: true
-    },
-    {
-      id: 2,
-      label: 'Work',
-      name: 'Alex Morgan',
-      street: '456 Market Street, Suite 1200',
-      city: 'San Francisco',
-      state: 'CA',
-      zip: '94103',
-      country: 'United States',
-      isDefault: false
-    }
-  ]);
-
+  const { addresses, addAddress, updateAddress, deleteAddress, setDefaultAddress } = useUser();
   const [showAddForm, setShowAddForm] = useState(false);
   const [editingAddress, setEditingAddress] = useState(null);
 
   const handleDeleteAddress = (id) => {
-    setAddresses(addresses.filter(address => address.id !== id));
+    deleteAddress(id);
   };
 
   const handleSetDefault = (id) => {
-    setAddresses(addresses.map(address => ({
-      ...address,
-      isDefault: address.id === id
-    })));
+    setDefaultAddress(id);
+  };
+
+  const handleSaveAddress = (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const addressData = {
+      label: formData.get('label'),
+      name: formData.get('name'),
+      street: formData.get('street'),
+      city: formData.get('city'),
+      state: formData.get('state'),
+      zip: formData.get('zip'),
+      country: formData.get('country')
+    };
+
+    if (editingAddress) {
+      updateAddress({ ...addressData, id: editingAddress.id, isDefault: editingAddress.isDefault });
+    } else {
+      addAddress({ ...addressData, isDefault: false });
+    }
+
+    setShowAddForm(false);
+    setEditingAddress(null);
   };
 
   return (
@@ -57,10 +54,14 @@ const Addresses = () => {
           <h3 className="text-lg font-bold text-brand-brown-700 mb-4">
             {editingAddress ? 'Edit Address' : 'Add New Address'}
           </h3>
-          <form className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <form onSubmit={handleSaveAddress} className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium text-brand-brown-700 mb-1">Label</label>
-              <select className="w-full px-3 py-2 border border-brand-tan rounded-lg focus:ring-2 focus:ring-brand-orange focus:border-brand-orange">
+              <select 
+                name="label"
+                defaultValue={editingAddress ? editingAddress.label : 'Home'}
+                className="w-full px-3 py-2 border border-brand-tan rounded-lg focus:ring-2 focus:ring-brand-orange focus:border-brand-orange"
+              >
                 <option>Home</option>
                 <option>Work</option>
                 <option>Other</option>
@@ -70,45 +71,64 @@ const Addresses = () => {
               <label className="block text-sm font-medium text-brand-brown-700 mb-1">Full Name</label>
               <input 
                 type="text" 
+                name="name"
+                defaultValue={editingAddress ? editingAddress.name : ''}
                 className="w-full px-3 py-2 border border-brand-tan rounded-lg focus:ring-2 focus:ring-brand-orange focus:border-brand-orange"
                 placeholder="Enter full name"
+                required
               />
             </div>
             <div className="md:col-span-2">
               <label className="block text-sm font-medium text-brand-brown-700 mb-1">Street Address</label>
               <input 
                 type="text" 
+                name="street"
+                defaultValue={editingAddress ? editingAddress.street : ''}
                 className="w-full px-3 py-2 border border-brand-tan rounded-lg focus:ring-2 focus:ring-brand-orange focus:border-brand-orange"
                 placeholder="Enter street address"
+                required
               />
             </div>
             <div>
               <label className="block text-sm font-medium text-brand-brown-700 mb-1">City</label>
               <input 
                 type="text" 
+                name="city"
+                defaultValue={editingAddress ? editingAddress.city : ''}
                 className="w-full px-3 py-2 border border-brand-tan rounded-lg focus:ring-2 focus:ring-brand-orange focus:border-brand-orange"
                 placeholder="Enter city"
+                required
               />
             </div>
             <div>
               <label className="block text-sm font-medium text-brand-brown-700 mb-1">State</label>
               <input 
                 type="text" 
+                name="state"
+                defaultValue={editingAddress ? editingAddress.state : ''}
                 className="w-full px-3 py-2 border border-brand-tan rounded-lg focus:ring-2 focus:ring-brand-orange focus:border-brand-orange"
                 placeholder="Enter state"
+                required
               />
             </div>
             <div>
               <label className="block text-sm font-medium text-brand-brown-700 mb-1">ZIP Code</label>
               <input 
                 type="text" 
+                name="zip"
+                defaultValue={editingAddress ? editingAddress.zip : ''}
                 className="w-full px-3 py-2 border border-brand-tan rounded-lg focus:ring-2 focus:ring-brand-orange focus:border-brand-orange"
                 placeholder="Enter ZIP code"
+                required
               />
             </div>
             <div>
               <label className="block text-sm font-medium text-brand-brown-700 mb-1">Country</label>
-              <select className="w-full px-3 py-2 border border-brand-tan rounded-lg focus:ring-2 focus:ring-brand-orange focus:border-brand-orange">
+              <select 
+                name="country"
+                defaultValue={editingAddress ? editingAddress.country : 'United States'}
+                className="w-full px-3 py-2 border border-brand-tan rounded-lg focus:ring-2 focus:ring-brand-orange focus:border-brand-orange"
+              >
                 <option>United States</option>
                 <option>Canada</option>
                 <option>United Kingdom</option>
@@ -189,7 +209,13 @@ const Addresses = () => {
                   Set as Default
                 </button>
               )}
-              <button className="text-sm font-medium text-brand-brown-700 hover:text-brand-brown-900">
+              <button 
+                onClick={() => {
+                  setEditingAddress(address);
+                  setShowAddForm(true);
+                }}
+                className="text-sm font-medium text-brand-brown-700 hover:text-brand-brown-900"
+              >
                 Edit
               </button>
             </div>

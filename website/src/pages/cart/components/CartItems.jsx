@@ -1,6 +1,6 @@
 const CartItems = ({ items, onUpdateQuantity, onRemoveItem }) => {
     const handleQuantityChange = (id, newQuantity) => {
-        if (newQuantity >= 1) {
+        if (newQuantity >= 0) {
             onUpdateQuantity(id, newQuantity);
         }
     };
@@ -10,9 +10,7 @@ const CartItems = ({ items, onUpdateQuantity, onRemoveItem }) => {
     };
 
     const decrementQuantity = (id, currentQuantity) => {
-        if (currentQuantity > 1) {
-            handleQuantityChange(id, currentQuantity - 1);
-        }
+        handleQuantityChange(id, currentQuantity - 1);
     };
 
     return (
